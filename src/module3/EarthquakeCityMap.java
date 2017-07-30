@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Processing library
+import de.fhpotsdam.unfolding.geo.Location;
+import de.fhpotsdam.unfolding.providers.Microsoft;
 import processing.core.PApplet;
 
 //Unfolding libraries
@@ -37,6 +39,7 @@ public class EarthquakeCityMap extends PApplet {
 	
 	// Less than this threshold is a light earthquake
 	public static final float THRESHOLD_MODERATE = 5;
+
 	// Less than this threshold is a minor earthquake
 	public static final float THRESHOLD_LIGHT = 4;
 
@@ -48,24 +51,30 @@ public class EarthquakeCityMap extends PApplet {
 	
 	//feed with magnitude 2.5+ Earthquakes
 	private String earthquakesURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
-
 	
 	public void setup() {
 		size(950, 600, OPENGL);
 
 		if (offline) {
 		    map = new UnfoldingMap(this, 200, 50, 700, 500, new MBTilesMapProvider(mbTilesString));
-		    earthquakesURL = "2.5_week.atom"; 	// Same feed, saved Aug 7, 2015, for working offline
+			earthquakesURL = "2.5_week.atom"; 	// Same feed, saved Aug 7, 2015, for working offline
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 700, 500, new Google.GoogleMapProvider());
+			//map = new UnfoldingMap(this, 200, 50, 700, 500, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 200, 50, 700, 500, new Microsoft.RoadProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 			//earthquakesURL = "2.5_week.atom";
 		}
 		
 	    map.zoomToLevel(2);
 	    MapUtils.createDefaultEventDispatcher(this, map);	
-			
+
+	    // a single location added as a marker int the map...
+	    Location valLoc = new Location(-38.1f, -73.03f);
+	    Marker val = new SimplePointMarker(valLoc);
+	    map.addMarker(val);
+
+	    /*
 	    // The List you will populate with new SimplePointMarkers
 	    List<Marker> markers = new ArrayList<Marker>();
 
@@ -88,6 +97,7 @@ public class EarthquakeCityMap extends PApplet {
 	    int yellow = color(255, 255, 0);
 	    
 	    //TODO: Add code here as appropriate
+	*/
 	}
 		
 	// A suggested helper method that takes in an earthquake feature and 
