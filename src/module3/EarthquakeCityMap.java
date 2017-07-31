@@ -36,7 +36,8 @@ public class EarthquakeCityMap extends PApplet {
 
 	// IF YOU ARE WORKING OFFLINE, change the value of this variable to true
 	private static final boolean offline = false;
-	
+	//private static final boolean offline = true;
+
 	// Less than this threshold is a light earthquake
 	public static final float THRESHOLD_MODERATE = 5;
 
@@ -56,14 +57,17 @@ public class EarthquakeCityMap extends PApplet {
 		size(950, 600, OPENGL);
 
 		if (offline) {
-		    map = new UnfoldingMap(this, 200, 50, 700, 500, new MBTilesMapProvider(mbTilesString));
-			earthquakesURL = "2.5_week.atom"; 	// Same feed, saved Aug 7, 2015, for working offline
+		    //map = new UnfoldingMap(this, 200, 50, 700, 500, new MBTilesMapProvider(mbTilesString));
+		    map = new UnfoldingMap(this, 200, 50, 700, 500, new Microsoft.RoadProvider());
+			//earthquakesURL = "2.5_week.atom"; 	// Same feed, saved Aug 7, 2015, for working offline
+			earthquakesURL = "/home/dumble/IdeaProjects/UCSDUnfoldingMaps/data/2.5_week.atom"; 	// Same feed, saved Aug 7, 2015, for working offline
 		}
 		else {
 			//map = new UnfoldingMap(this, 200, 50, 700, 500, new Google.GoogleMapProvider());
 			map = new UnfoldingMap(this, 200, 50, 700, 500, new Microsoft.RoadProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 			//earthquakesURL = "2.5_week.atom";
+			earthquakesURL = "/home/dumble/IdeaProjects/UCSDUnfoldingMaps/data/2.5_week.atom"; 	// Same feed, saved Aug 7, 2015, for working offline
 		}
 		
 	    map.zoomToLevel(2);
@@ -74,7 +78,7 @@ public class EarthquakeCityMap extends PApplet {
 	    Marker val = new SimplePointMarker(valLoc);
 	    map.addMarker(val);
 
-	    /*
+
 	    // The List you will populate with new SimplePointMarkers
 	    List<Marker> markers = new ArrayList<Marker>();
 
@@ -97,7 +101,7 @@ public class EarthquakeCityMap extends PApplet {
 	    int yellow = color(255, 255, 0);
 	    
 	    //TODO: Add code here as appropriate
-	*/
+
 	}
 		
 	// A suggested helper method that takes in an earthquake feature and 
