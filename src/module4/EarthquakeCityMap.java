@@ -76,14 +76,13 @@ public class EarthquakeCityMap extends PApplet {
 		
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
-		earthquakesURL = "/home/dumble/IdeaProjects/UCSDUnfoldingMaps/data/test0.atom";
+		//earthquakesURL = "/home/dumble/IdeaProjects/UCSDUnfoldingMaps/data/test0.atom";
 		//earthquakesURL = "/home/dumble/IdeaProjects/UCSDUnfoldingMaps/data/test1.atom";
-		//earthquakesURL = "test2.atom";
+		earthquakesURL = "/home/dumble/IdeaProjects/UCSDUnfoldingMaps/data/test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
 		//earthquakesURL = "quiz1.atom";
-		
-		
+
 		// (2) Reading in earthquake data and geometric properties
 	    //     STEP 1: load country features and markers
 		List<Feature> countries = GeoJSONReader.loadData(this, countryFile);
@@ -115,7 +114,6 @@ public class EarthquakeCityMap extends PApplet {
 		}
 		System.out.println("total number of quakeMarkers: " + quakeMarkers.size());
 
-
 	    // could be used for debugging
 	    printQuakes();
 	 		
@@ -133,7 +131,6 @@ public class EarthquakeCityMap extends PApplet {
 		background(0);
 		map.draw();
 		addKey();
-		
 	}
 	
 	// helper method to draw key in GUI
@@ -187,10 +184,10 @@ public class EarthquakeCityMap extends PApplet {
 	private void printQuakes() 
 	{
 		// TODO: Implement this method
-		System.out.println("print Quakes...");
-		System.out.println(quakeMarkers);
-		System.out.println(countryMarkers);
-		int oceanQuakesCount = 0;
+		//System.out.println("print Quakes...");
+		//System.out.println(quakeMarkers);
+		//System.out.println(countryMarkers);
+		int landQuakesCount = 0;
 		boolean ifFound;
 		for (Marker country : countryMarkers) {
 			int count = 0;
@@ -200,19 +197,18 @@ public class EarthquakeCityMap extends PApplet {
 				//System.out.println(earthquake.toString());
 				if (earthquake instanceof LandQuakeMarker) {
 					if (country.getProperty("name").equals(((LandQuakeMarker) earthquake).getCountry())) {
-						System.out.print(country.getProperty("name") + " ");
 						ifFound = true;
 						count++;
 					}
-				} else {
-					oceanQuakesCount++;
 				}
 			}
 			if (ifFound) {
+				System.out.print(country.getProperty("name") + ": ");
+				landQuakesCount += count;
 				System.out.println(count);
 			}
 		}
-		System.out.println("Ocean quakes" + oceanQuakesCount);
+		System.out.println("Ocean quakes: " + (quakeMarkers.size() - landQuakesCount));
 	}
 
 
