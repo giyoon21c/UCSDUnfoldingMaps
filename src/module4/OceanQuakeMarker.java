@@ -30,11 +30,10 @@ public class OceanQuakeMarker extends EarthquakeMarker {
 		// and how it is set in the EarthquakeMarker constructor
 		
 		// TODO: Implement this method
-		
+		//pg.ellipse(x, y, super.getRadius(), super.getRadius());
+		float mag = super.getRadius();
+		//System.out.println("mag:" + mag);
+		pg.rect(x - mag/2, y - mag/2, mag, mag);
 	}
-	
-
-
-	
 
 }

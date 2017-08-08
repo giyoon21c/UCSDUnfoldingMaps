@@ -23,9 +23,7 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	// You will want to set this in the constructor, either
 	// using the thresholds below, or a continuous function
 	// based on magnitude. 
-  
-	
-	
+
 	/** Greater than or equal to this threshold is a moderate earthquake */
 	public static final float THRESHOLD_MODERATE = 5;
 	/** Greater than or equal to this threshold is a light earthquake */
@@ -37,12 +35,13 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	public static final float THRESHOLD_DEEP = 300;
 
 	// ADD constants for colors
+	//private static final int yellow = color(255, 255, 0);
+	//private static final int blue = color(0, 0, 255);
+	//private static final int red = color(255, 0, 0);
 
-	
 	// abstract method implemented in derived classes
 	public abstract void drawEarthquake(PGraphics pg, float x, float y);
-		
-	
+
 	// constructor
 	public EarthquakeMarker (PointFeature feature) 
 	{
@@ -53,6 +52,7 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		properties.put("radius", 2*magnitude );
 		setProperties(properties);
 		this.radius = 1.75f*getMagnitude();
+		//this.radius = 3.0f*getMagnitude();
 	}
 	
 
@@ -68,7 +68,9 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		drawEarthquake(pg, x, y);
 		
 		// OPTIONAL TODO: draw X over marker if within past day		
-		
+		if (getAge().equals("Past Day")) {
+			drawX(pg, x, y);
+		}
 		// reset to previous styling
 		pg.popStyle();
 		
@@ -80,13 +82,29 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	// You might find the getters below helpful.
 	private void colorDetermine(PGraphics pg) {
 		//TODO: Implement this method
+		float mag = getDepth();
+		if (mag <= 70.0) {
+			pg.fill(255, 255, 0);
+		} else if (mag > 70.0 && mag < 300.0) {
+			pg.fill(0, 0, 255);
+		} else {
+			pg.fill(255, 0, 0);
+		}
 	}
-	
-	
+
+	private void drawX(PGraphics pg, float x, float y) {
+		float r = getMagnitude();
+		pg.line(x - r, y - r, x + r, y + r);
+		pg.line(x + r, y - r, x - r, y + r);
+	}
+
 	/*
 	 * getters for earthquake properties
 	 */
-	
+	public String getAge() {
+		return (String) getProperty("age");
+	}
+
 	public float getMagnitude() {
 		return Float.parseFloat(getProperty("magnitude").toString());
 	}
@@ -108,6 +126,5 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	{
 		return isOnLand;
 	}
-	
-	
+
 }
