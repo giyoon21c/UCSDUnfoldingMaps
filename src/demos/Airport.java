@@ -20,7 +20,15 @@ public class Airport implements Comparable<Airport> {
 	private float timezone;
 	private char dst;
 	private String dbTimezone;
-	
+
+	public Airport(int airportID, String name, String city, String country, String code3, String code4) {
+		this.airportID = airportID;
+		this.name = name;
+		this.city = city;
+		this.country = country;
+		this.code3 = code3;
+		this.code4 = code4;
+	}
 	
 	public Airport(int airportID, String name, String city, String country, String code3, String code4, double latitude,
 			double longitude, int altitude, float timezone, char dst, String dbTimezone) {
@@ -37,6 +45,7 @@ public class Airport implements Comparable<Airport> {
 		this.dst = dst;
 		this.dbTimezone = dbTimezone;
 	}
+
 	public int getAirportID() {
 		return airportID;
 	}
