@@ -82,6 +82,76 @@ public class AirportSearchApp {
         return false;
     }
 
+    public static boolean binarySearch(List<Airport> airports, String airportCityName) {
+        int low = 0;
+        int high = airports.size()-1;
+        while (low <= high) {
+            //int mid = (low + high) / 2;
+            int mid = low + ((high-low)/2);
+            System.out.println(low + ", " + high + ", " + mid + ", " + (airports.get(mid).getCity()));
+            int compare = airportCityName.compareTo(airports.get(mid).getCity());
+            if (compare < 0) {
+                high = mid - 1;
+            } else if (compare > 0){
+                low = mid + 1;
+            } else {
+                System.out.println("found!");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void selectionSort() {
+        List<Integer> nums = new ArrayList<>();
+        nums.add(5);
+        nums.add(3);
+        nums.add(10);
+        nums.add(2);
+        nums.add(7);
+        System.out.println(nums);
+
+        /*
+        for (int i = 0; i < nums.size(); i++) {
+            int smallestIndex = i;
+            int smallSoFarSeen = nums.get(i);
+            System.out.println(smallestIndex + ": " + smallSoFarSeen);
+            for (int j = i+1; j < nums.size(); j++) {
+                System.out.println("   " + j + ": " + nums.get(j));
+                if (smallSoFarSeen > nums.get(j)) {
+                    smallestIndex = j;
+                    smallSoFarSeen = nums.get(j);
+                    System.out.println("   smallest value so far: " + smallSoFarSeen + " at index " + smallestIndex);
+                }
+            }
+            System.out.println("       smallest index = " + smallestIndex + " value: " + smallSoFarSeen);
+
+            int OldValueToSave = nums.get(i);
+            nums.set(i, nums.get(smallestIndex));
+            System.out.println("progress ->" + nums);
+
+            nums.set(smallestIndex, OldValueToSave);
+            System.out.println("progress ->" + nums);
+            System.out.println(i + ", " + nums.get(smallestIndex));
+        }
+        System.out.println(nums);
+        */
+
+        for (int i = 0; i < nums.size(); i++) {
+            int minIndex = i;
+            for (int j = i+1; j < nums.size(); j++) {
+                if (nums.get(j) < nums.get(minIndex)) {
+                    minIndex = j;
+                }
+            }
+            //System.out.println("minIndex = " + minIndex);
+            int temp = nums.get(i);
+            nums.set(i, nums.get(minIndex));
+            nums.set(minIndex, temp);
+            System.out.println(nums);
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         /*
         List<Marker> airportList = null;
@@ -94,6 +164,10 @@ public class AirportSearchApp {
         readAirportDat(airports);
         printAirportDat(airports);
 
+        System.out.println("\n\n");
+        System.out.println("before sorting...");
+        printAirportDat(airports);
+
         String airportCityName = "\"Godthaab\"";
         if (linearSearch(airports, airportCityName)) {
             System.out.println(airportCityName + " found!");
@@ -101,13 +175,16 @@ public class AirportSearchApp {
             System.out.println(airportCityName + " not found!");
         }
 
-        System.out.println("\n\n");
-        System.out.println("before sorting...");
-        printAirportDat(airports);
-
         Collections.sort(airports);
         System.out.println("after sortring...");
         printAirportDat(airports);
 
+        if (binarySearch(airports, airportCityName)) {
+            System.out.println(airportCityName + " found!");
+        } else {
+            System.out.println(airportCityName + " not found!");
+        }
+
+        selectionSort();
     }
 }
